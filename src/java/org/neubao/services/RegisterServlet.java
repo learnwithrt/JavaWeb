@@ -30,31 +30,20 @@ public class RegisterServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet RegisterServlet</title>");            
+            throws ServletException, IOException {     
             //get the information
+            String resp=null;
             String uname=request.getParameter("uname");
             String email=request.getParameter("email");
             String pwd=request.getParameter("pwd");
             //print the information
             Customer c=new Customer(uname,email,pwd);
             if(cdao.saveCustomer(c))
-                out.println("<h4> Registered</h4>");
+                resp="okay";
             else
-                out.println("<h4>Sorry! We have a problem</h4>");
-            //send this information to the database
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet RegisterServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+                resp="not";
+            response.setContentType("text/plain");
+            response.getWriter().write(resp);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

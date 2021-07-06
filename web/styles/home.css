@@ -50,3 +50,12 @@ body,html{
 .active{
     color:red;
 }
+.products{
+    position:absolute;
+    top:20%;
+    left:10%;
+}
+.productPic{
+    height: 100px;
+    width:100px;
+}

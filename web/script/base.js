@@ -25,6 +25,27 @@ $(document).ready(function () {
             }
         });
     });
+    
+    /*Add a new method ti be executed when the signup button is clicked*/
+    $("#signup").click(function () {
+        console.log("Clicked Sign up");
+        $.ajax({
+            /*ajax request should be sent to the server and check the server's reply*/
+            type: 'POST',
+            url: 'RegisterServlet?uname='+$('#uname').val()+'&pwd='+$('#pwd').val()+'&email='+$('#email').val(),
+            /*RegisterServlet?uname=admin&pwd=abcde&email=admin@abc.com*/
+            success: function (result) {
+                console.log(result);
+                if (result === "not")
+                    $(".error").show(500);//this will show the error div
+                else{
+                    $(".success").show(500);
+                    window.location.href="login.jsp";
+                }
+            }
+        });
+    });
+    
 });
 
 

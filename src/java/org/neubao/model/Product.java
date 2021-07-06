@@ -20,6 +20,15 @@ public class Product {
     public Product() {
     }
 
+    public Product(int id, String name, int qty, String description, float price, String seller_id) {
+        this.id = id;
+        this.name = name;
+        this.qty = qty;
+        this.description = description;
+        this.price = price;
+        this.seller_id = seller_id;
+    }
+
     public Product(String name, int qty, String description, float price, String seller_id) {
         this.name = name;
         this.qty = qty;

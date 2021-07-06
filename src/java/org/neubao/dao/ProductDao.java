@@ -7,7 +7,9 @@ package org.neubao.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import org.neubao.model.Product;
 import org.neubao.utils.DBUtils;
 
@@ -38,5 +40,27 @@ public class ProductDao {
             }
         }
         return saved;
+    }
+    public ArrayList<Product> getAllProducts(){
+        //get the connection
+        Connection con=DBUtils.connectToDB("neubao");
+        ArrayList<Product> products=new ArrayList<>();
+        if(con!=null){try {
+            //you are successfully connected to the database
+            PreparedStatement state=con.prepareStatement("select * from Products");
+            ResultSet rs=state.executeQuery();
+            while(rs.next()){
+                Product temp=new Product(rs.getInt("id"),rs.getString("name"), 
+                        rs.getInt("qty"), rs.getString("description"), 
+                        rs.getFloat("price"), rs.getString("seller_id"));
+                products.add(temp);
+            }
+            con.close();//close the connection
+            } catch (SQLException ex) {
+                System.out.println("Cannot create Statement object");
+                ex.printStackTrace();
+            }
+        }
+        return products;
     }
 }
