@@ -12,14 +12,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import org.neubao.dao.CustomerDao;
-import org.neubao.model.Customer;
 
 /**
  *
  * @author rahul
  */
-public class LoginServlet extends HttpServlet {
+public class LogoutServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,28 +30,17 @@ public class LoginServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //To create a new web page
-        String res = "okay";
-
-        //check if the login is okay
-        System.out.println(request.getParameter("uname"));
-        System.out.println(request.getParameter("pwd"));
-        Customer c = new Customer(request.getParameter("uname"), request.getParameter("pwd"));
-        System.out.println(new CustomerDao().checkCustomer(c));
-        if (!(new CustomerDao().checkCustomer(c)))//it is not a valid user
-        {
-            res = "not";
-        }
-        System.out.println("Response "+res);
-        response.setContentType("text/plain");//the response now is just plain text information
-        //Create a new session
-        HttpSession session=request.getSession();//create a new session if one doesn't exist
-        session.setAttribute("uname", c.getUname());
-        response.getWriter().write(res);//this is the response being sent
-
+            //Logout and delete the session only if the user is already logged in
+            HttpSession session=request.getSession(false);
+            if(session!=null){
+                session.invalidate();//delete the session
+                //go back to index.jsp
+                response.sendRedirect("index.jsp");
+            }
+            
     }
 
-// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

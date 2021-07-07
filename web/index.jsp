@@ -16,15 +16,31 @@
         <link href="styles/home.css" rel="stylesheet"/>
     </head>
     <body>
-        <div class="bg-img"></div>
+        <!--<div class="bg-img"></div>-->
         <div class="nav-container">
             <div class="topnav">
                 <img class="logo" src="images/logo.png"/>
                 <a href="support.jsp">Support</a>
                 <a href="seller.jsp">Seller</a>
                 <a href="buyer.jsp">Buyer</a>
+                <%
+                    //get the session
+                    //HttpSession sess=request.getSession(false);
+                    //Do not crate a new session if one doesn't exist
+                    //check if the attribute in the session is null
+                    Object name=session.getAttribute("uname");
+                    if(name==null){
+                %>
                 <a href="login.jsp">Log In</a>
                 <a href="register.jsp" class="sign">Register</a>                
+                <%
+                    }
+                    else{
+                %>
+                <a href="profile.jsp?id=<%=name%>" class="sign"><%=name%></a>          
+                <a href="LogoutServlet">Logout</a>                
+                <%}
+                %>
             </div>
         </div>
         <div class="products">
@@ -55,7 +71,7 @@
                         <td><%=pro.getDescription()%></td>
                         <td><%=pro.getPrice()%></td>
                         <td><%=pro.getSeller_id()%></td>
-                        <td><a href="cart.jsp?id=<%=pro.getId()%>">Add to cart</a></td>
+                        <td><a href="CartServlet?id=<%=pro.getId()%>">Add to cart</a></td>
                     </tr>
                     <%}%>
                 </tbody>
